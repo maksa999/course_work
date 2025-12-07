@@ -20,5 +20,5 @@
 
 ### 1. Клонирование репозитория
 ```bash
-git clone <ваш-репозиторий>
+git clone <https://github.com/maksa999/course_work>
 cd warehouse-system
