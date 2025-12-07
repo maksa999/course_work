@@ -1,35 +1,7 @@
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.Python
-.env
-.venv
-env/
 venv/
-ENV/
-env.bak/
-venv.bak/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Logs
-logs/
-*.log
-
-# Test
-tests/
-test*.py
-
-# Distribution
-dist/
-build/
-*.egg-info/
-
-# Database
+.env
+.git/
+README.md
 *.db
-*.sqlite3
