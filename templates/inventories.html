@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Инвентаризации</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #2d3748;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .header h1 {
+            color: #2d3748;
+            font-weight: 600;
+        }
+        .nav-links {
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        .form-section {
+            background: #f7fafc;
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+        }
+        .form-section h2 {
+            margin-bottom: 20px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #4a5568;
+            font-size: 14px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            transform: scale(1.2);
+        }
+        .btn-submit {
+            padding: 12px 24px;
+            background: #805ad5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+        .btn-submit:hover {
+            background: #6b46c1;
+        }
+        .table-section {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background: #805ad5;
+            color: white;
+            font-weight: 500;
+        }
+        tr:hover {
+            background: #f7fafc;
+        }
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        .status-pending {
+            background: #fef5e7;
+            color: #744210;
+            border: 1px solid #f6ad55;
+        }
+        .status-completed {
+            background: #f0fff4;
+            color: #22543d;
+            border: 1px solid #68d391;
+        }
+        .status-cancelled {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 1px solid #fc8181;
+        }
+        .success-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        .success-yes {
+            background: #f0fff4;
+            color: #22543d;
+            border: 1px solid #68d391;
+        }
+        .success-no {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 1px solid #fc8181;
+        }
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .alert-success {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 1px solid #9ae6b4;
+        }
+        .alert-error {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 1px solid #feb2b2;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-update {
+            padding: 6px 12px;
+            background: #38a169;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .btn-delete {
+            padding: 6px 12px;
+            background: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+        }
+        .comment-cell {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .comment-full {
+            background: #f7fafc;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-size: 13px;
+            color: #4a5568;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+        }
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Инвентаризации</h1>
+            <div class="nav-links">
+                <a href="/" class="btn">Главная</a>
+                <a href="/products-page" class="btn">Товары</a>
+                <a href="/supplies-page" class="btn">Поставки</a>
+            </div>
+        </div>
+
+        {% if request.query_params.get('success') %}
+        <div class="alert alert-success">
+            {{ request.query_params.get('success').replace('+', ' ') }}
+        </div>
+        {% endif %}
+
+        {% if request.query_params.get('error') %}
+        <div class="alert alert-error">
+            {{ request.query_params.get('error').replace('+', ' ') }}
+        </div>
+        {% endif %}
+
+        <div class="form-section">
+            <h2>Создать инвентаризацию</h2>
+            <form action="/inventories/create" method="post">
+                <div class="form-group">
+                    <label for="name">Название инвентаризации</label>
+                    <input type="text" id="name" name="name" placeholder="Например: Ежеквартальная инвентаризация" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Описание (необязательно)</label>
+                    <textarea id="description" name="description" placeholder="Дополнительная информация"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Создать инвентаризацию</button>
+            </form>
+        </div>
+
+        <div class="table-section">
+            <h2 style="margin-bottom: 16px;">Список инвентаризаций ({{ inventories|length }})</h2>
+
+            {% if inventories %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>Статус</th>
+                        <th>Успешно</th>
+                        <th>Комментарий</th>
+                        <th>Дата создания</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inventory in inventories %}
+                    <tr>
+                        <td>{{ inventory.id }}</td>
+                        <td><strong>{{ inventory.name }}</strong></td>
+                        <td>
+                            {% if inventory.status == 'pending' %}
+                                <span class="status-badge status-pending">Ожидает</span>
+                            {% elif inventory.status == 'completed' %}
+                                <span class="status-badge status-completed">Завершена</span>
+                            {% elif inventory.status == 'cancelled' %}
+                                <span class="status-badge status-cancelled">Отменена</span>
+                            {% else %}
+                                <span class="status-badge">{{ inventory.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if inventory.is_successful %}
+                                <span class="success-badge success-yes">✓ Успешно</span>
+                            {% else %}
+                                <span class="success-badge success-no">✗ Не успешно</span>
+                            {% endif %}
+                        </td>
+                        <td class="comment-cell">
+                            {% if inventory.comment %}
+                                <div>{{ inventory.comment|truncate(30) }}</div>
+                                {% if inventory.comment|length > 30 %}
+                                    <button class="btn-update" onclick="showComment('{{ inventory.comment|replace("\"", "&quot;")|replace("'", "&#39;") }}')">
+                                        Показать
+                                    </button>
+                                {% endif %}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if inventory.created_at %}
+                                {{ inventory.created_at.strftime('%d.%m.%Y') }}
+                                <div style="font-size: 11px; color: #718096;">{{ inventory.created_at.strftime('%H:%M') }}</div>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <form action="/inventories/update-status/{{ inventory.id }}" method="post" style="display: inline;">
+                                    <select name="status" onchange="this.form.submit()" style="padding: 4px 8px; font-size: 12px;">
+                                        <option value="pending" {% if inventory.status == 'pending' %}selected{% endif %}>Ожидает</option>
+                                        <option value="completed" {% if inventory.status == 'completed' %}selected{% endif %}>Завершена</option>
+                                        <option value="cancelled" {% if inventory.status == 'cancelled' %}selected{% endif %}>Отменена</option>
+                                    </select>
+                                </form>
+                                <button class="btn-update" onclick="openUpdateModal({{ inventory.id }}, '{{ inventory.name|replace("\"", "&quot;")|replace("'", "&#39;") }}', '{{ inventory.comment|replace("\"", "&quot;")|replace("'", "&#39;") if inventory.comment else "" }}', {{ 'true' if inventory.is_successful else 'false' }})">
+                                    Изменить
+                                </button>
+                                <form action="/inventories/delete/{{ inventory.id }}" method="post" style="display: inline;">
+                                    <button type="submit" class="btn-delete" onclick="return confirm('Удалить инвентаризацию?')">Удалить</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+                <p>Нет созданных инвентаризаций</p>
+                <p style="margin-top: 8px;">Создайте первую инвентаризацию с помощью формы выше</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="updateModal" class="modal">
+        <div class="modal-content">
+            <h3>Редактировать инвентаризацию</h3>
+            <form id="updateForm" method="post">
+                <div class="form-group">
+                    <label>Название</label>
+                    <input type="text" id="modalName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Комментарий</label>
+                    <textarea id="modalComment" name="comment" placeholder="Введите комментарий"></textarea>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="modalIsSuccessful" name="is_successful" value="true">
+                    <label for="modalIsSuccessful">Инвентаризация успешно завершена</label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn" onclick="closeUpdateModal()">Отмена</button>
+                    <button type="submit" class="btn-submit">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="commentModal" class="modal">
+        <div class="modal-content">
+            <h3>Комментарий</h3>
+            <div id="commentText" class="comment-full"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn" onclick="closeCommentModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const updateModal = document.getElementById('updateModal');
+        const commentModal = document.getElementById('commentModal');
+
+        function openUpdateModal(id, name, comment, isSuccessful) {
+            document.getElementById('modalName').value = name;
+            document.getElementById('modalComment').value = comment || '';
+            document.getElementById('modalIsSuccessful').checked = isSuccessful === 'true';
+
+            const form = document.getElementById('updateForm');
+            form.action = `/inventories/update/${id}`;
+
+            updateModal.style.display = 'flex';
+        }
+
+        function closeUpdateModal() {
+            updateModal.style.display = 'none';
+        }
+
+        function showComment(comment) {
+            document.getElementById('commentText').textContent = comment || '(нет комментария)';
+            commentModal.style.display = 'flex';
+        }
+
+        function closeCommentModal() {
+            commentModal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == updateModal) closeUpdateModal();
+            if (event.target == commentModal) closeCommentModal();
+        }
+    </script>
+</body>
+</html>
